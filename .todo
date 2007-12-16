@@ -1,0 +1,11 @@
+<todo version="0.1.19">
+    <note priority="medium" time="1120100133" done="1141439508">
+        get the module working
+        <comment>
+            it's okay
+        </comment>
+    </note>
+    <note priority="medium" time="1141439536">
+        refine the 'is_ugly' function
+    </note>
+</todo>
