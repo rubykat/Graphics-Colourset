@@ -8,11 +8,11 @@ Graphics::Colourset - create sets of colours.
 
 =head1 VERSION
 
-This describes version B<0.01> of Graphics::Colourset.
+This describes version B<0.02> of Graphics::Colourset.
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -154,11 +154,11 @@ sub new {
 	    $self->{foreground_inactive} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.70]);
 	    $self->{background} =
-		Graphics::ColorObject->new_HSV([0, 0, 0.40]);
+		Graphics::ColorObject->new_HSV([0, 0, 0.20]);
 	    $self->{topshadow} =
-		Graphics::ColorObject->new_HSV([0, 0, 0.50]);
-	    $self->{bottomshadow} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.30]);
+	    $self->{bottomshadow} =
+		Graphics::ColorObject->new_HSV([0, 0, 0.10]);
 	}
 	elsif ($self->{shade} == 2)
 	{
@@ -167,11 +167,11 @@ sub new {
 	    $self->{foreground_inactive} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.80]);
 	    $self->{background} =
-		Graphics::ColorObject->new_HSV([0, 0, 0.60]);
+		Graphics::ColorObject->new_HSV([0, 0, 0.50]);
 	    $self->{topshadow} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.70]);
 	    $self->{bottomshadow} =
-		Graphics::ColorObject->new_HSV([0, 0, 0.50]);
+		Graphics::ColorObject->new_HSV([0, 0, 0.30]);
 	}
 	elsif ($self->{shade} == 3)
 	{
@@ -212,13 +212,13 @@ sub new {
 					       0.30, 0.80]);
 	    $self->{background} =
 		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.90, 0.60]);
+					       0.90, 0.35]);
 	    $self->{topshadow} =
 		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.70, 0.75]);
+					       0.50, 0.45]);
 	    $self->{bottomshadow} =
 		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.90, 0.40]);
+					       0.90, 0.25]);
 	}
 	elsif ($self->{shade} == 2)
 	{
@@ -230,13 +230,13 @@ sub new {
 					       0.30, 0.90]);
 	    $self->{background} =
 		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.80, 0.80]);
+					       0.80, 0.50]);
 	    $self->{topshadow} =
 		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.50, 0.95]);
+					       0.50, 0.65]);
 	    $self->{bottomshadow} =
 		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.80, 0.65]);
+					       0.80, 0.45]);
 	}
 	elsif ($self->{shade} == 3)
 	{
@@ -269,13 +269,13 @@ sub new {
 						   0.90, 0.60]);
 		$self->{background} =
 		    Graphics::ColorObject->new_HSV([$self->{hue},
-						   0.85, 0.95]);
+						   0.75, 0.75]);
 		$self->{topshadow} =
 		    Graphics::ColorObject->new_HSV([$self->{hue},
-						   0.50, 0.99]);
+						   0.45, 0.85]);
 		$self->{bottomshadow} =
 		    Graphics::ColorObject->new_HSV([$self->{hue},
-						   0.70, 0.80]);
+						   0.70, 0.65]);
 	    }
 	}
 	elsif ($self->{shade} == 4) # lightest
@@ -288,10 +288,10 @@ sub new {
 					       0.40, 0.55]);
 	    $self->{background} =
 		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.30, 0.90]);
+					       0.30, 0.92]);
 	    $self->{topshadow} =
 		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.20, 0.95]);
+					       0.20, 0.97]);
 	    $self->{bottomshadow} =
 		Graphics::ColorObject->new_HSV([$self->{hue},
 					       0.40, 0.75]);
@@ -299,6 +299,162 @@ sub new {
     }
     return ($self);
 } # new
+
+=head2 make_n_coloursets
+
+my @colsets = Graphics::Colourset::make_n_coloursets(number=>$num,
+    shades=>[1,0,3,4],
+    hues=>[10,50,undef,undef]);
+
+Make $num coloursets, based on the given shades and hues; if a shade is
+zero or undef, a random shade will be chosen; if a hue is undef, a random
+hue will be chosen.  The coloursets will be generated, but checked with
+is_ugly to ensure that it isn't ugly.  They will also be checked to make
+sure that they aren't the same as the other coloursets.
+
+Note that larger numbers will take longer and be more difficult to generate.
+
+=cut
+sub make_n_coloursets {
+    my %args = (
+	number=>1,
+	shades=>undef,
+	hues=>undef,
+	@_
+    );
+
+    my @colsets = ();
+    while (!@colsets)
+    {
+	@colsets = attempt_n_coloursets(%args);
+    }
+    return @colsets;
+} # make_n_coloursets
+
+=head2 attempt_n_coloursets
+
+my @colsets = Graphics::Colourset::make_n_coloursets(number=>$num,
+    shades=>[1,0,3,4],
+    hues=>[10,50,undef,undef]);
+
+Make $num coloursets, based on the given shades and hues; if a shade is
+zero or undef, a random shade will be chosen; if a hue is undef, a random
+hue will be chosen.  The coloursets will be generated, but checked with
+is_ugly to ensure that it isn't ugly.  They will also be checked to make
+sure that they aren't the same as the other coloursets.
+
+If a colourset is ugly, an empty set is returned.
+
+Note that larger numbers will take longer and be more difficult to generate.
+
+=cut
+sub attempt_n_coloursets {
+    my %args = (
+	number=>1,
+	shades=>undef,
+	hues=>undef,
+	@_
+    );
+
+    my $num_colsets = $args{number};
+
+    # set an array of shades; by default zero means random
+    my @shades = ();
+    for (my $i = 0; $i < $num_colsets; $i++)
+    {
+	$shades[$i] = 0;
+    }
+    # if shades are passed in, use them
+    if (defined $args{shades})
+    {
+	for (my $i = 0; $i < @{$args{shades}}; $i++)
+	{
+	    $shades[$i] = $args{shades}->[$i];
+	}
+    }
+    # set an array of hues; by default undefined means random
+    my @hues = ();
+    for (my $i = 0; $i < $num_colsets; $i++)
+    {
+	$hues[$i] = undef;
+    }
+    # if hues are passed in, use them
+    if (defined $args{hues})
+    {
+	for (my $i = 0; $i < @{$args{hues}}; $i++)
+	{
+	    $hues[$i] = $args{hues}->[$i];
+	}
+    }
+
+    my @styles = qw(complement splitcomp triad tetrad analog);
+    my %intervals = (
+	complement=>[0, 180],
+	splitcomp=>[0, 180-24, 180+24],
+	triad=>[0, 120, 240],
+	tetrad=>[0, 90, 180, 240],
+	analog=>[0, -30, 30, -60, 60],
+	mono=>[0, 0, 0, 0],
+    );
+    # add mono to the styles if there are few enough coloursets
+    if ($num_colsets <= @{$intervals{mono}})
+    {
+	push @styles, 'mono';
+    }
+
+    my $style = $styles[int(rand(@styles))];
+    my $num_intervals = @{$intervals{$style}};
+    print STDERR "style:$style, num_intervals:$num_intervals\n";
+    if ($style eq 'mono')
+    {
+	# set the shades for mono, dark to light
+	for (my $i = 0; $i < $num_colsets; $i++)
+	{
+	    $shades[$i] = $i + 1;
+	}
+    }
+
+    my @colsets = ();
+    my $basehue = (defined $hues[0] ? $hues[0] : int(rand(360)));
+
+    while (@colsets < $num_colsets)
+    {
+	my $next_cs;
+	# get the index of the next colset
+	my $ind = @colsets; 
+	$shades[$ind] = int(rand(4)) + 1 if $shades[$ind] == 0;
+	while ($ind >= $num_intervals
+	       and $shades[$ind] == $shades[$ind - $num_intervals])
+	{
+	    $shades[$ind] = int(rand(4)) + 1;
+	}
+	my $shade = $shades[$ind];
+	my $hue = $hues[$ind];
+	if (!defined $hue)
+	{
+	    if ($ind < $num_intervals)
+	    {
+		$hue = $basehue + $intervals{$style}->[$ind];
+	    }
+	    else
+	    {
+		$hue = $basehue + $intervals{$style}->[$ind %
+		    $num_intervals];
+	    }
+	    $hue += 360 if ($hue < 0);
+	    $hue -= 360 if ($hue > 360);
+	}
+	print STDERR "[$ind] HUE: $hue, SHADE: $shade\n";
+	$next_cs = Graphics::Colourset->new(hue=>$hue, shade=>$shade);
+	if ($ind > 0 and $next_cs->is_ugly($colsets[$ind - 1]))
+	{
+	    return ();
+	}
+	push @colsets, $next_cs;
+    }
+
+    return @colsets;
+} # attempt_n_coloursets
 
 =head1 OBJECT METHODS
 
@@ -643,140 +799,6 @@ sub is_ugly {
 
     return 0;
 } # is_ugly
-
-=head2 new_alt_colourset
-
-my $alt = $colset->new_alt_colourset(shade=>$shade,
-    hue=>$hue);
-
-Make an alternative colourset based on the input "base" colourset.
-
-If both hue and shade are given, use those.  Otherwise randomly generate (one or both) but check with is_ugly to ensure that it isn't ugly.  It will also be checked to make sure that it isn't the same as the base colourset.
-
-=cut
-sub new_alt_colourset {
-    my $self = shift;
-    my %args = (
-	hue=>undef,
-	shade=>undef,
-	@_
-    );
-    my $shade = $args{shade};
-    my $hue2 = $args{hue};
-
-    my $basehue = $self->{hue};
-
-    # make the second hue a random given interval away
-    my @intervals = qw(0 30 60 90 120 -30 -60 -90 -120);
-    # add the diff for grey
-    push @intervals, (360 - $basehue);
-    if (!defined $hue2)
-    {
-	$hue2 = $basehue + $intervals[int(rand(@intervals))];
-	$hue2 += 360 if ($hue2 < 0);
-	$hue2 -= 360 if ($hue2 > 360);
-    }
-    my $newalt = Graphics::Colourset->new(hue=>$hue2, shade=>$shade);
-    while ($self->equals($newalt)
-	|| $self->is_ugly($newalt))
-    {
-	$hue2 = $basehue + $intervals[int(rand(@intervals))];
-	$hue2 += 360 if ($hue2 < 0);
-	$hue2 -= 360 if ($hue2 > 360);
-	$newalt = Graphics::Colourset->new(hue=>$hue2, shade=>$shade);
-    }
-    return $newalt;
-} # new_alt_colourset
-
-=head2 new_alt_coloursets
-
-my @colsets = $colset->new_alt_coloursets($num);
-
-Make $num alternative coloursets based on the input "base" colourset.
-The hue and shade of the alt colourset will be randomly generated, but
-checked with is_ugly to ensure that it isn't ugly.  It will also be checked
-to make sure that they aren't the same as the base colourset!
-
-my @colsets = $colset->new_alt_coloursets(4,
-    shades=>[1,0,3,4],
-    hues=>[10,50,undef,undef]);
-
-If the optional shades are given, then the shades will be those shades.
-If the optional hues are given, then the hues will be those hues.
-A negative hue means pick a random hue.
-
-Note that larger numbers will take longer and be more difficult to generate.
-
-=cut
-sub new_alt_coloursets {
-    my $self = shift;
-    my $num_colsets = shift;
-    my %args = (
-	shades=>undef,
-	hues=>undef,
-	@_
-    );
-
-    # set an array of shades; by default zero means random
-    my @shades = ();
-    for (my $i = 0; $i < $num_colsets; $i++)
-    {
-	$shades[$i] = 0;
-    }
-    # if shades are passed in, use them
-    if (defined $args{shades})
-    {
-	for (my $i = 0; $i < @{$args{shades}}; $i++)
-	{
-	    $shades[$i] = $args{shades}->[$i];
-	}
-    }
-    # set an array of hues; by default undefined means random
-    my @hues = ();
-    for (my $i = 0; $i < $num_colsets; $i++)
-    {
-	$hues[$i] = undef;
-    }
-    # if hues are passed in, use them
-    if (defined $args{hues})
-    {
-	for (my $i = 0; $i < @{$args{hues}}; $i++)
-	{
-	    $hues[$i] = $args{hues}->[$i];
-	}
-    }
-
-    my $basehue = $self->{hue};
-
-    my @colsets = ();
-
-    while (@colsets < $num_colsets)
-    {
-	my $newalt;
-	my $is_okay = 0;
-	while (!$is_okay)
-	{
-	    # get the index of the next colset
-	    my $ind = @colsets; 
-	    my $shade = $shades[$ind];
-	    my $hue = $hues[$ind];
-	    $newalt = $self->new_alt_colourset(hue=>$hue,
-		shade=>$shade);
-	    $is_okay = 1;
-	    foreach my $cs (@colsets)
-	    {
-		if ($newalt->equals($cs)
-		    || $newalt->is_ugly($cs))
-		{
-		    $is_okay = 0;
-		    last;
-		}
-	    }
-	}
-	push @colsets, $newalt;
-    }
-    return @colsets;
-} # new_alt_coloursets
 
 =head1 REQUIRES
 

@@ -11,7 +11,7 @@ my $builder = Module::Build->new(
 	'Getopt::Long' => 2.34,
 	'Pod::Usage' => 0,
 	'Getopt::ArgvFile' => 1.09,
-	'Graphics::ColorObject' => 0.4,
+	'Graphics::ColorObject' => 0,
 	},
     build_requires => {
         'Test::More' => 0,

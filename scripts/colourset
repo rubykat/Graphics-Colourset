@@ -12,11 +12,11 @@ colourset - substitute certain tags with generated colour names.
 
 =head1 VERSION
 
-This describes version B<0.01> of colourset.
+This describes version B<0.02> of colourset.
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -290,13 +290,13 @@ sub generate_colsets ($) {
 
     my @shades = (defined $data_ref->{shade} 
 	? @{$data_ref->{shade}} : ());
-    my $base_shade = shift @shades;
-    my $basecol = Graphics::Colourset->new(hue=>$hue,
-	shade=>$base_shade);
-    my @colsets = ($basecol);
-    push @colsets, $basecol->new_alt_coloursets($data_ref->{numsets},
-	shades=>\@shades);
+    my @colsets = Graphics::Colourset::make_n_coloursets
+	(number=>$data_ref->{numsets},
+	 hues=>[$hue],
+	 shades=>\@shades);
+
     $data_ref->{_colsets} = \@colsets;
+
 } # generate_colsets
 
 sub process_file ($$) {
