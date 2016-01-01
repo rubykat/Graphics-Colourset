@@ -1,6 +1,5 @@
 TODO list for Graphics-Colourset
 ================================
-  2. refine the 'is_ugly' function
-    Added:04/03/06, 13:32  Priority: medium
-
+1. Convert to use Dist::Zilla
+2. refine the 'is_ugly' function
 
