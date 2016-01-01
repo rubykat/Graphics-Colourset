@@ -16,9 +16,14 @@ my $builder = Module::Build->new(
     build_requires => {
         'Test::More' => 0,
     },
-    create_makefile_pl => 'passthrough',
 #    add_to_cleanup      => [ 'Graphics-Colourset-*' ],
     script_files => [qw(scripts/colourset)],
+    meta_add => {
+        resources  => {
+            repository  => 'git://github.com/rubykat/Graphics-Colourset.git',
+            homepage  => 'http://github.com/rubykat/Graphics-Colourset',
+        },
+    },
 );
 
 $builder->create_build_script();
