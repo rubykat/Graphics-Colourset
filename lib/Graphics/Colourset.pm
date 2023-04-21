@@ -8,11 +8,11 @@ Graphics::Colourset - create sets of colours.
 
 =head1 VERSION
 
-This describes version B<0.02> of Graphics::Colourset.
+This describes version B<0.03> of Graphics::Colourset.
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 SYNOPSIS
 
@@ -471,8 +471,8 @@ sub as_hex_string {
     my $self = shift;
     my $colour = shift;
 
-    my $hex = $self->{$colour}->as_RGBhex();
-    return "#$hex";
+    my ($r, $g, $b) = $self->{$colour}->as_RGB();
+    return sprintf("#%02X%02X%02X", $r, $g, $b);
 } # as_hex_string
 
 =head2 as_rgb_string
