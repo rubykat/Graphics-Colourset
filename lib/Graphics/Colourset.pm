@@ -471,7 +471,7 @@ sub as_hex_string {
     my $self = shift;
     my $colour = shift;
 
-    my ($r, $g, $b) = $self->{$colour}->as_RGB();
+    my ($r, $g, $b) = @{$self->{$colour}->as_RGB255()};
     return sprintf("#%02X%02X%02X", $r, $g, $b);
 } # as_hex_string
 
