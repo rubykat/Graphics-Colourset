@@ -145,12 +145,18 @@ sub new {
 	$self->{shade} = int(rand(4)) + 1;
     }
 
+    my $greener = $self->greener_hue();
+    my $redder = $self->redder_hue();
     if ($self->{hue} == 360) # make it grey
     {
 	if ($self->{shade} == 1) # darkest
 	{
 	    $self->{foreground} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.99]);
+	    $self->{foreground_low} =
+		Graphics::ColorObject->new_HSV([$greener, 0, 0.99]);
+	    $self->{foreground_high} =
+		Graphics::ColorObject->new_HSV([$redder, 0, 0.99]);
 	    $self->{foreground_inactive} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.70]);
 	    $self->{background} =
@@ -164,6 +170,10 @@ sub new {
 	{
 	    $self->{foreground} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.95]);
+	    $self->{foreground_low} =
+		Graphics::ColorObject->new_HSV([$greener, 0, 0.95]);
+	    $self->{foreground_high} =
+		Graphics::ColorObject->new_HSV([$redder, 0, 0.95]);
 	    $self->{foreground_inactive} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.80]);
 	    $self->{background} =
@@ -177,6 +187,10 @@ sub new {
 	{
 	    $self->{foreground} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.05]);
+	    $self->{foreground_low} =
+		Graphics::ColorObject->new_HSV([$greener, 0, 0.05]);
+	    $self->{foreground_high} =
+		Graphics::ColorObject->new_HSV([$redder, 0, 0.05]);
 	    $self->{foreground_inactive} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.60]);
 	    $self->{background} =
@@ -190,6 +204,10 @@ sub new {
 	{
 	    $self->{foreground} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.20]);
+	    $self->{foreground_low} =
+		Graphics::ColorObject->new_HSV([$greener, 0, 0.20]);
+	    $self->{foreground_high} =
+		Graphics::ColorObject->new_HSV([$greener, 0, 0.20]);
 	    $self->{foreground_inactive} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.55]);
 	    $self->{background} =
@@ -205,38 +223,36 @@ sub new {
 	if ($self->{shade} == 1) # darkest
 	{
 	    $self->{foreground} =
-		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.10, 0.99]);
+		Graphics::ColorObject->new_HSV([$self->{hue}, 0.10, 0.99]);
+	    $self->{foreground_low} =
+		Graphics::ColorObject->new_HSV([$greener, 0.10, 0.99]);
+	    $self->{foreground_high} =
+		Graphics::ColorObject->new_HSV([$redder, 0.10, 0.99]);
 	    $self->{foreground_inactive} =
-		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.30, 0.80]);
+		Graphics::ColorObject->new_HSV([$self->{hue}, 0.30, 0.80]);
 	    $self->{background} =
-		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.90, 0.35]);
+		Graphics::ColorObject->new_HSV([$self->{hue}, 0.90, 0.35]);
 	    $self->{topshadow} =
-		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.50, 0.45]);
+		Graphics::ColorObject->new_HSV([$self->{hue}, 0.50, 0.45]);
 	    $self->{bottomshadow} =
-		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.90, 0.25]);
+		Graphics::ColorObject->new_HSV([$self->{hue}, 0.90, 0.25]);
 	}
 	elsif ($self->{shade} == 2)
 	{
 	    $self->{foreground} =
-		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0, 0.99]);
+		Graphics::ColorObject->new_HSV([$self->{hue}, 0, 0.99]);
+	    $self->{foreground_low} =
+		Graphics::ColorObject->new_HSV([$greener, 0, 0.99]);
+	    $self->{foreground_high} =
+		Graphics::ColorObject->new_HSV([$redder, 0, 0.99]);
 	    $self->{foreground_inactive} =
-		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.30, 0.90]);
+		Graphics::ColorObject->new_HSV([$self->{hue}, 0.30, 0.90]);
 	    $self->{background} =
-		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.80, 0.50]);
+		Graphics::ColorObject->new_HSV([$self->{hue}, 0.80, 0.50]);
 	    $self->{topshadow} =
-		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.50, 0.65]);
+		Graphics::ColorObject->new_HSV([$self->{hue}, 0.50, 0.65]);
 	    $self->{bottomshadow} =
-		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.80, 0.45]);
+		Graphics::ColorObject->new_HSV([$self->{hue}, 0.80, 0.45]);
 	}
 	elsif ($self->{shade} == 3)
 	{
@@ -244,57 +260,54 @@ sub new {
 	    {
 		# blue/purple are too dark to deal with this
 		$self->{foreground} =
-		    Graphics::ColorObject->new_HSV([$self->{hue},
-						   0.99, 0.05]);
+		    Graphics::ColorObject->new_HSV([$self->{hue}, 0.99, 0.05]);
+		$self->{foreground_low} =
+		    Graphics::ColorObject->new_HSV([$greener, 0.99, 0.05]);
+		$self->{foreground_high} =
+		    Graphics::ColorObject->new_HSV([$redder, 0.99, 0.05]);
 		$self->{foreground_inactive} =
-		    Graphics::ColorObject->new_HSV([$self->{hue},
-						   0.90, 0.60]);
+		    Graphics::ColorObject->new_HSV([$self->{hue}, 0.90, 0.60]);
 		$self->{background} =
-		    Graphics::ColorObject->new_HSV([$self->{hue},
-						   0.50, 0.85]);
+		    Graphics::ColorObject->new_HSV([$self->{hue}, 0.50, 0.85]);
 		$self->{topshadow} =
-		    Graphics::ColorObject->new_HSV([$self->{hue},
-						   0.50, 0.95]);
+		    Graphics::ColorObject->new_HSV([$self->{hue}, 0.50, 0.95]);
 		$self->{bottomshadow} =
-		    Graphics::ColorObject->new_HSV([$self->{hue},
-						   0.70, 0.75]);
+		    Graphics::ColorObject->new_HSV([$self->{hue}, 0.70, 0.75]);
 	    }
 	    else
 	    {
 		$self->{foreground} =
-		    Graphics::ColorObject->new_HSV([$self->{hue},
-						   0.99, 0.05]);
+		    Graphics::ColorObject->new_HSV([$self->{hue}, 0.99, 0.05]);
+		$self->{foreground_low} =
+		    Graphics::ColorObject->new_HSV([$greener, 0.99, 0.05]);
+		$self->{foreground_high} =
+		    Graphics::ColorObject->new_HSV([$redder, 0.99, 0.05]);
 		$self->{foreground_inactive} =
-		    Graphics::ColorObject->new_HSV([$self->{hue},
-						   0.90, 0.60]);
+		    Graphics::ColorObject->new_HSV([$self->{hue}, 0.90, 0.60]);
 		$self->{background} =
-		    Graphics::ColorObject->new_HSV([$self->{hue},
-						   0.75, 0.75]);
+		    Graphics::ColorObject->new_HSV([$self->{hue}, 0.75, 0.75]);
 		$self->{topshadow} =
-		    Graphics::ColorObject->new_HSV([$self->{hue},
-						   0.45, 0.85]);
+		    Graphics::ColorObject->new_HSV([$self->{hue}, 0.45, 0.85]);
 		$self->{bottomshadow} =
-		    Graphics::ColorObject->new_HSV([$self->{hue},
-						   0.70, 0.65]);
+		    Graphics::ColorObject->new_HSV([$self->{hue}, 0.70, 0.65]);
 	    }
 	}
 	elsif ($self->{shade} == 4) # lightest
 	{
 	    $self->{foreground} =
-		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.90, 0.20]);
+		Graphics::ColorObject->new_HSV([$self->{hue}, 0.90, 0.20]);
+	    $self->{foreground_low} =
+		Graphics::ColorObject->new_HSV([$greener, 0.90, 0.20]);
+	    $self->{foreground_high} =
+		Graphics::ColorObject->new_HSV([$redder, 0.90, 0.20]);
 	    $self->{foreground_inactive} =
-		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.40, 0.55]);
+		Graphics::ColorObject->new_HSV([$self->{hue}, 0.40, 0.55]);
 	    $self->{background} =
-		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.30, 0.92]);
+		Graphics::ColorObject->new_HSV([$self->{hue}, 0.30, 0.92]);
 	    $self->{topshadow} =
-		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.20, 0.97]);
+		Graphics::ColorObject->new_HSV([$self->{hue}, 0.20, 0.97]);
 	    $self->{bottomshadow} =
-		Graphics::ColorObject->new_HSV([$self->{hue},
-					       0.40, 0.75]);
+		Graphics::ColorObject->new_HSV([$self->{hue}, 0.40, 0.75]);
 	}
     }
     return ($self);
@@ -491,6 +504,54 @@ sub as_rgb_string {
     my ($r, $g, $b) = @{$self->{$colour}->as_RGB255()};
     return sprintf("rgb:%02X/%02X/%02X", $r, $g, $b);
 } # as_rgb_string
+
+=head2 greener_hue
+
+my $green = $self->greener_hue();
+
+Calculate a hue which is closer to green than the scheme's own hue
+If the hue itself is green, then make it bluer.
+
+=cut
+
+sub greener_hue {
+    my $self = shift;
+
+    my $greener = 120;
+    if ($self->{hue} >= 0 and $self->{hue} <= 150)
+    {
+        $greener = $self->{hue} + 30;
+    }
+    elsif ($self->{hue} > 150 and $self->{hue} < 360)
+    {
+        $greener = $self->{hue} - 30;
+    }
+    return $greener;
+} # greener_hue
+
+=head2 redder_hue
+
+my $red = $self->redder_hue();
+
+Calculate a hue which is closer to red than the scheme's own hue
+If the hue itself is red, then make it pinker.
+
+=cut
+
+sub redder_hue {
+    my $self = shift;
+
+    my $redder = 0;
+    if ($self->{hue} >= 0 and $self->{hue} <= 30)
+    {
+        $redder = $self->{hue} + 360 - 30;
+    }
+    elsif ($self->{hue} > 30 and $self->{hue} < 360)
+    {
+        $redder = $self->{hue} - 30;
+    }
+    return $redder;
+} # redder_hue
 
 =head2 equals
 
