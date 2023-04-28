@@ -8,11 +8,11 @@ Graphics::Colourset - create sets of colours.
 
 =head1 VERSION
 
-This describes version B<0.03> of Graphics::Colourset.
+This describes version B<0.04> of Graphics::Colourset.
 
 =cut
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 =head1 SYNOPSIS
 
@@ -147,6 +147,7 @@ sub new {
 
     my $greener = $self->greener_hue();
     my $redder = $self->redder_hue();
+    print STDERR "=> hue: $self->{hue}, low: $greener, high: $redder, shade: $self->{shade}\n";
     if ($self->{hue} == 360) # make it grey
     {
 	if ($self->{shade} == 1) # darkest
@@ -154,9 +155,9 @@ sub new {
 	    $self->{foreground} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.99]);
 	    $self->{foreground_low} =
-		Graphics::ColorObject->new_HSV([$greener, 0, 0.99]);
+		Graphics::ColorObject->new_HSV([$greener, 0.5, 0.99]);
 	    $self->{foreground_high} =
-		Graphics::ColorObject->new_HSV([$redder, 0, 0.99]);
+		Graphics::ColorObject->new_HSV([$redder, 0.5, 0.99]);
 	    $self->{foreground_inactive} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.70]);
 	    $self->{background} =
@@ -171,9 +172,9 @@ sub new {
 	    $self->{foreground} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.95]);
 	    $self->{foreground_low} =
-		Graphics::ColorObject->new_HSV([$greener, 0, 0.95]);
+		Graphics::ColorObject->new_HSV([$greener, 0.5, 0.95]);
 	    $self->{foreground_high} =
-		Graphics::ColorObject->new_HSV([$redder, 0, 0.95]);
+		Graphics::ColorObject->new_HSV([$redder, 0.5, 0.95]);
 	    $self->{foreground_inactive} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.80]);
 	    $self->{background} =
@@ -188,9 +189,9 @@ sub new {
 	    $self->{foreground} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.05]);
 	    $self->{foreground_low} =
-		Graphics::ColorObject->new_HSV([$greener, 0, 0.05]);
+		Graphics::ColorObject->new_HSV([$greener, 0.5, 0.05]);
 	    $self->{foreground_high} =
-		Graphics::ColorObject->new_HSV([$redder, 0, 0.05]);
+		Graphics::ColorObject->new_HSV([$redder, 0.5, 0.05]);
 	    $self->{foreground_inactive} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.60]);
 	    $self->{background} =
@@ -205,9 +206,9 @@ sub new {
 	    $self->{foreground} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.20]);
 	    $self->{foreground_low} =
-		Graphics::ColorObject->new_HSV([$greener, 0, 0.20]);
+		Graphics::ColorObject->new_HSV([$greener, 0.5, 0.20]);
 	    $self->{foreground_high} =
-		Graphics::ColorObject->new_HSV([$greener, 0, 0.20]);
+		Graphics::ColorObject->new_HSV([$greener, 0.5, 0.20]);
 	    $self->{foreground_inactive} =
 		Graphics::ColorObject->new_HSV([0, 0, 0.55]);
 	    $self->{background} =
@@ -225,9 +226,9 @@ sub new {
 	    $self->{foreground} =
 		Graphics::ColorObject->new_HSV([$self->{hue}, 0.10, 0.99]);
 	    $self->{foreground_low} =
-		Graphics::ColorObject->new_HSV([$greener, 0.10, 0.99]);
+		Graphics::ColorObject->new_HSV([$greener, 0.50, 0.99]);
 	    $self->{foreground_high} =
-		Graphics::ColorObject->new_HSV([$redder, 0.10, 0.99]);
+		Graphics::ColorObject->new_HSV([$redder, 0.50, 0.99]);
 	    $self->{foreground_inactive} =
 		Graphics::ColorObject->new_HSV([$self->{hue}, 0.30, 0.80]);
 	    $self->{background} =
@@ -242,9 +243,9 @@ sub new {
 	    $self->{foreground} =
 		Graphics::ColorObject->new_HSV([$self->{hue}, 0, 0.99]);
 	    $self->{foreground_low} =
-		Graphics::ColorObject->new_HSV([$greener, 0, 0.99]);
+		Graphics::ColorObject->new_HSV([$greener, 0.3, 0.99]);
 	    $self->{foreground_high} =
-		Graphics::ColorObject->new_HSV([$redder, 0, 0.99]);
+		Graphics::ColorObject->new_HSV([$redder, 0.3, 0.99]);
 	    $self->{foreground_inactive} =
 		Graphics::ColorObject->new_HSV([$self->{hue}, 0.30, 0.90]);
 	    $self->{background} =
@@ -262,9 +263,9 @@ sub new {
 		$self->{foreground} =
 		    Graphics::ColorObject->new_HSV([$self->{hue}, 0.99, 0.05]);
 		$self->{foreground_low} =
-		    Graphics::ColorObject->new_HSV([$greener, 0.99, 0.05]);
+		    Graphics::ColorObject->new_HSV([$greener, 0.99, 0.15]);
 		$self->{foreground_high} =
-		    Graphics::ColorObject->new_HSV([$redder, 0.99, 0.05]);
+		    Graphics::ColorObject->new_HSV([$redder, 0.99, 0.15]);
 		$self->{foreground_inactive} =
 		    Graphics::ColorObject->new_HSV([$self->{hue}, 0.90, 0.60]);
 		$self->{background} =
@@ -279,9 +280,9 @@ sub new {
 		$self->{foreground} =
 		    Graphics::ColorObject->new_HSV([$self->{hue}, 0.99, 0.05]);
 		$self->{foreground_low} =
-		    Graphics::ColorObject->new_HSV([$greener, 0.99, 0.05]);
+		    Graphics::ColorObject->new_HSV([$greener, 0.99, 0.15]);
 		$self->{foreground_high} =
-		    Graphics::ColorObject->new_HSV([$redder, 0.99, 0.05]);
+		    Graphics::ColorObject->new_HSV([$redder, 0.99, 0.15]);
 		$self->{foreground_inactive} =
 		    Graphics::ColorObject->new_HSV([$self->{hue}, 0.90, 0.60]);
 		$self->{background} =
@@ -297,9 +298,9 @@ sub new {
 	    $self->{foreground} =
 		Graphics::ColorObject->new_HSV([$self->{hue}, 0.90, 0.20]);
 	    $self->{foreground_low} =
-		Graphics::ColorObject->new_HSV([$greener, 0.90, 0.20]);
+		Graphics::ColorObject->new_HSV([$greener, 0.99, 0.40]);
 	    $self->{foreground_high} =
-		Graphics::ColorObject->new_HSV([$redder, 0.90, 0.20]);
+		Graphics::ColorObject->new_HSV([$redder, 0.99, 0.40]);
 	    $self->{foreground_inactive} =
 		Graphics::ColorObject->new_HSV([$self->{hue}, 0.40, 0.55]);
 	    $self->{background} =
@@ -510,7 +511,6 @@ sub as_rgb_string {
 my $green = $self->greener_hue();
 
 Calculate a hue which is closer to green than the scheme's own hue
-If the hue itself is green, then make it bluer.
 
 =cut
 
@@ -518,13 +518,18 @@ sub greener_hue {
     my $self = shift;
 
     my $greener = 120;
-    if ($self->{hue} >= 0 and $self->{hue} <= 150)
+    my $diff = 60;
+    if ($self->{hue} != 360) # not grey
     {
-        $greener = $self->{hue} + 30;
+        $greener = ($self->{hue} + $diff) % 360;
     }
-    elsif ($self->{hue} > 150 and $self->{hue} < 360)
+    if ($greener < 60 or $greener > 240) # redder than yellow, pinker than blue
     {
-        $greener = $self->{hue} - 30;
+        $greener = ($self->{hue} - $diff) % 360;
+        if ($greener < 60 or $greener > 240)
+        {
+            $greener = 120;
+        }
     }
     return $greener;
 } # greener_hue
@@ -534,7 +539,6 @@ sub greener_hue {
 my $red = $self->redder_hue();
 
 Calculate a hue which is closer to red than the scheme's own hue
-If the hue itself is red, then make it pinker.
 
 =cut
 
@@ -542,13 +546,18 @@ sub redder_hue {
     my $self = shift;
 
     my $redder = 0;
-    if ($self->{hue} >= 0 and $self->{hue} <= 30)
+    my $diff = 60;
+    if ($self->{hue} != 360) # not grey
     {
-        $redder = $self->{hue} + 360 - 30;
+        $redder = ($self->{hue} + 360 - $diff) % 360;
     }
-    elsif ($self->{hue} > 30 and $self->{hue} < 360)
+    if ($redder > 50 and $redder < 270) # greener than yellow, bluer than purple
     {
-        $redder = $self->{hue} - 30;
+        $redder = ($self->{hue} + 360 + $diff) % 360;
+        if ($redder > 50 and $redder < 270)
+        {
+            $redder = 0;
+        }
     }
     return $redder;
 } # redder_hue

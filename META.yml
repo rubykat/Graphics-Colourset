@@ -16,7 +16,7 @@ name: Graphics-Colourset
 provides:
   Graphics::Colourset:
     file: lib/Graphics/Colourset.pm
-    version: '0.03'
+    version: '0.04'
 requires:
   Getopt::ArgvFile: '1.09'
   Getopt::Long: '2.34'
