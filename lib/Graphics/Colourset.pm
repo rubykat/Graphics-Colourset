@@ -458,7 +458,7 @@ sub attempt_n_coloursets {
 	    $hue += 360 if ($hue < 0);
 	    $hue -= 360 if ($hue > 360);
 	}
-	print STDERR "[$ind] HUE: $hue, SHADE: $shade\n";
+	print STDERR "[$ind] ";
 	$next_cs = Graphics::Colourset->new(hue=>$hue, shade=>$shade);
 	if ($ind > 0 and $next_cs->is_ugly($colsets[$ind - 1]))
 	{
