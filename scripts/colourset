@@ -12,11 +12,11 @@ colourset - substitute certain tags with generated colour names.
 
 =head1 VERSION
 
-This describes version B<0.04> of colourset.
+This describes version B<0.0401> of colourset.
 
 =cut
 
-our $VERSION = '0.04';
+our $VERSION = '0.0401';
 
 =head1 SYNOPSIS
 

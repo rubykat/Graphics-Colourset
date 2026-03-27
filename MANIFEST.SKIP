@@ -5,6 +5,7 @@
 ^.git/
 .boring
 
+dist.ini
 
 # distro files
 ^Graphics-Colourset-*
