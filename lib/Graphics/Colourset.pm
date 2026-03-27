@@ -19,19 +19,17 @@ our $VERSION = '0.04';
     use Graphics::Colourset;
 
     my $cs1 = Graphics::Colourset->new(hue=>60, shade=>1);
+    my @colsets = Graphics::Colourset->make_n_coloursets(number=>3,
+        hues=>\@hues,shades=>\@shades);
 
     my $col_str = $cs1->as_hex_string('foreground');
-
-    my $cs2 = $cs1->new_alt_colourset(shade=>4);
-
-    my @colsets = $cs1->new_alt_coloursets(3);
 
 =head1 DESCRIPTION
 
 This module generates the colour definitions of a set of colours
 suitable for using as the basis of a colour-scheme for an X-Windows
 window-manager. They can also be used for CSS colour descriptions for
-Web-pages.  The colours are defined as the usual "hex string",
+Web-pages.  The colours are defined as the traditional "hex string",
 or as the more recent "rgb string".
 
 The aim of this is to avoid having to generate harmonious colour schemes
