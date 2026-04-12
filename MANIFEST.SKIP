@@ -3,6 +3,7 @@
 \bCVS\b
 ,v$
 ^.git/
+^.gitignore
 .boring
 
 dist.ini
@@ -20,13 +21,6 @@ dist.ini
 # Module::Build
 ^Build$
 ^_build/
-
-# Mod-devaid files
-^darcs_prebuild.pl$
-^mod_devaid.conf$
-^old_version.txt$
-^version.txt$
-.todo
 
 # Temp, old, vi and emacs files.
 ~$

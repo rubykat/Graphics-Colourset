@@ -1,18 +1,10 @@
 package Graphics::Colourset;
-use strict;
-use warnings;
+
+# vim:ts=8 sw=4 sts=4 ai
 
 =head1 NAME
 
 Graphics::Colourset - create sets of colours.
-
-=head1 VERSION
-
-This describes version B<0.04> of Graphics::Colourset.
-
-=cut
-
-our $VERSION = '0.04';
 
 =head1 SYNOPSIS
 
@@ -115,6 +107,7 @@ way, which isn't perfect.
 
 =cut
 
+use common::sense;
 use Graphics::ColorObject;
 
 =head1 CLASS METHODS
