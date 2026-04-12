@@ -2,6 +2,8 @@ package Graphics::Colourset;
 
 # vim:ts=8 sw=4 sts=4 ai
 
+# VERSION
+
 =head1 NAME
 
 Graphics::Colourset - create sets of colours.

@@ -2,6 +2,8 @@
 
 # vim:ts=8 sw=4 sts=4 ai
 
+# VERSION
+
 =head1 NAME
 
 colourset - substitute certain tags with generated colour names.
