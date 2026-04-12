@@ -309,13 +309,17 @@ sub new {
 
 my @colsets = Graphics::Colourset::make_n_coloursets(number=>$num,
     shades=>[1,0,3,4],
-    hues=>[10,50,undef,undef]);
+    hues=>[10,50,undef,undef],
+    styles=>\@styles);
 
 Make $num coloursets, based on the given shades and hues; if a shade is
 zero or undef, a random shade will be chosen; if a hue is undef, a random
 hue will be chosen.  The coloursets will be generated, but checked with
 is_ugly to ensure that it isn't ugly.  They will also be checked to make
 sure that they aren't the same as the other coloursets.
+
+styles (optional): The possible colourset styles. By default, this is
+complement, splitcomp, triad, tetrad, analog, mono.
 
 Note that larger numbers will take longer and be more difficult to generate.
 
@@ -325,6 +329,7 @@ sub make_n_coloursets {
 	number=>1,
 	shades=>undef,
 	hues=>undef,
+        styles=>undef,
 	@_
     );
 
@@ -338,7 +343,7 @@ sub make_n_coloursets {
 
 =head2 attempt_n_coloursets
 
-my @colsets = Graphics::Colourset::make_n_coloursets(number=>$num,
+my @colsets = Graphics::Colourset::attempt_n_coloursets(number=>$num,
     shades=>[1,0,3,4],
     hues=>[10,50,undef,undef]);
 
@@ -358,6 +363,7 @@ sub attempt_n_coloursets {
 	number=>1,
 	shades=>undef,
 	hues=>undef,
+        styles=>undef,
 	@_
     );
 
@@ -392,7 +398,12 @@ sub attempt_n_coloursets {
 	}
     }
 
-    my @styles = qw(complement splitcomp triad tetrad analog);
+    # if styles are passed in, use them
+    my @styles = qw(complement splitcomp triad tetrad analog mono);
+    if (defined $args{styles})
+    {
+        @styles = @{$args{styles}};
+    }
     my %intervals = (
 	complement=>[0, 180],
 	splitcomp=>[0, 180-24, 180+24],
@@ -401,11 +412,6 @@ sub attempt_n_coloursets {
 	analog=>[0, -30, 30, -60, 60],
 	mono=>[0, 0, 0, 0],
     );
-    # add mono to the styles if there are few enough coloursets
-    if ($num_colsets <= @{$intervals{mono}})
-    {
-	push @styles, 'mono';
-    }
 
     my $style = $styles[int(rand(@styles))];
     my $num_intervals = @{$intervals{$style}};
